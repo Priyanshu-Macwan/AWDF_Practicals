@@ -15,7 +15,7 @@
 | :--- | :--- | :--- |
 | **Practical 1** | `ITUE301-AWDF-Practical1` | Introduction to React, Vite & Component Architecture |
 | **Practical 2** | `ITUE301-AWDF-Practical2` | Client-Side Routing (React Router v6) & State Management (`useState`) |
-| **Practical 3** | `Practical-3` | GitHub REST API Data Fetching (`useEffect`, Async/Await) & Dynamic Rendering |
+| **Practical 3** | `ITUE301-AWDF-Practical3` | GitHub REST API Data Fetching (`useEffect`, Async/Await) & Dynamic Rendering |
 | **Practical 4** | `ITUE301-AWDF_Practical4-main` | Backend API Development with Node.js & Express |
 | **Practical 5** | `ITUE301-AWDF_Practical5-main` | MongoDB Database Integration & Mongoose Modeling |
 | **Practical 6** | `ITUE301-AWDF_Practical6-main` | Full-Stack MERN Integration (Frontend React + Backend Express/MongoDB) |
