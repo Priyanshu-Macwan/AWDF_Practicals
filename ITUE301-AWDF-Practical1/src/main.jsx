@@ -1,59 +1,44 @@
-import React, { Component, Suspense, lazy, useEffect, useState } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
-import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight, Code2, Layers3, Sparkles } from 'lucide-react';
 import './styles.css';
 
-const HomePage = lazy(() => import('./pages/HomePage.jsx'));
-const LearningPage = lazy(() => import('./pages/LearningPage.jsx'));
-const TopicPage = lazy(() => import('./pages/TopicPage.jsx'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+const projects = [
+  { number: '01', title: 'Student Portfolio', description: 'A personal space to introduce myself and bring my work, interests, and learning together.', tags: ['React', 'CSS', 'Vite'], icon: Layers3 },
+  { number: '02', title: 'Student Dashboard', description: 'A simple dashboard concept for keeping classes, study goals, and tasks in one place.', tags: ['UI design', 'JavaScript'], icon: Code2 },
+];
+const skills = ['HTML', 'CSS', 'JavaScript', 'React', 'Vite', 'Responsive design'];
 
-class RouteErrorBoundary extends Component {
-  state = { hasError: false };
-  static getDerivedStateFromError() { return { hasError: true }; }
-  render() {
-    if (this.state.hasError) return <main className="route-error"><p className="eyebrow">PAGE UNAVAILABLE</p><h1>This page couldn’t load.</h1><p>Try the learning hub again.</p><Link className="button-link" to="/learning">Back to learning hub</Link></main>;
-    return this.props.children;
-  }
+function SectionTitle({ eyebrow, children }) {
+  return <div className="section-title"><span className="eyebrow">{eyebrow}</span><h2>{children}</h2></div>;
 }
 
 function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const location = useLocation();
-  useEffect(() => setMenuOpen(false), [location.pathname]);
-  const navClass = ({ isActive }) => `nav-link${isActive ? ' active' : ''}`;
-  return <>
-    <a className="skip-link" href="#main-content">Skip to content</a>
-    <header className="topbar">
-      <Link className="brand" to="/" aria-label="Priyanshu Macwan, home"><span className="brand-mark">P</span><span>Priyanshu Macwan<small>Student portfolio · 24CS049</small></span></Link>
-      <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-expanded={menuOpen} aria-controls="primary-navigation" onClick={() => setMenuOpen(value => !value)}>{menuOpen ? <X size={20}/> : <Menu size={20}/>}</button>
-      <nav className={`primary-nav${menuOpen ? ' is-open' : ''}`} id="primary-navigation" aria-label="Main navigation">
-        <NavLink className={navClass} to="/" end>Home</NavLink>
-        <NavLink className={navClass} to="/learning">Learning hub</NavLink>
-        <NavLink className="nav-contact" to="/#contact">Get in touch <ArrowUpRight size={15}/></NavLink>
-      </nav>
-    </header>
-  </>;
+  return <header className="topbar"><a className="brand" href="#home" aria-label="Priyanshu Macwan, home"><span className="brand-mark">P</span><span>Priyanshu Macwan<small>Student portfolio</small></span></a><nav aria-label="Main navigation"><a href="#about">About</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a className="nav-contact" href="#contact">Get in touch <ArrowUpRight size={15}/></a></nav></header>;
+}
+
+function Hero() {
+  return <section className="hero" id="home"><div className="hero-copy"><div className="availability"><span/> PERSONAL PORTFOLIO <span className="availability-divider">/</span> 24CS049</div><h1>Curious by nature.<br/><span>Building for the web.</span></h1><p className="hero-intro">Hi, I’m <strong>Priyanshu Macwan</strong> — a student exploring web development and creating thoughtful, useful digital experiences.</p><a className="primary-link" href="#projects">Explore my work <ArrowDownRight size={17}/></a></div><div className="hero-card"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="hero-monogram">PM<span>.</span></div><div className="hero-card-label"><Sparkles size={15}/><span>Learning through making</span></div><div className="hero-card-index">FIG. 01 — PERSONAL PROFILE</div></div><div className="hero-foot"><span>COMPUTER ENGINEERING STUDENT</span><span>DESIGN · CODE · CURIOSITY</span></div></section>;
+}
+
+function About() {
+  return <section className="section about" id="about"><SectionTitle eyebrow="A LITTLE ABOUT ME">Hello, I’m Priyanshu.</SectionTitle><div className="about-body"><p className="about-lead">I enjoy understanding how things work, then turning ideas into clear, accessible web experiences.</p><div className="about-aside"><p>This portfolio is a snapshot of what I’m learning and making. I’m building my foundations in frontend development one project at a time.</p><div className="student-id"><span>ENROLLMENT NUMBER</span><strong>24CS049</strong></div></div></div></section>;
+}
+
+function Projects() {
+  return <section className="section projects" id="projects"><SectionTitle eyebrow="SELECTED WORK">Projects in progress</SectionTitle><div className="project-grid">{projects.map(({number,title,description,tags,icon:Icon})=><article className="project-card" key={number}><div className="project-top"><span className="project-number">{number} / 02</span><span className="project-icon"><Icon size={18}/></span></div><h3>{title}<ArrowUpRight size={18}/></h3><p>{description}</p><div className="tag-list">{tags.map(tag=><span key={tag}>{tag}</span>)}</div></article>)}</div></section>;
+}
+
+function Skills() {
+  return <section className="section skills" id="skills"><SectionTitle eyebrow="TOOLS & TECHNOLOGIES">What I’m learning</SectionTitle><div className="skills-layout"><p>Growing a practical toolkit for designing and building on the web.</p><div className="skill-list">{skills.map((skill,index)=><span className="skill" key={skill}><small>0{index+1}</small>{skill}</span>)}</div></div></section>;
+}
+
+function Contact() {
+  return <section className="contact" id="contact"><div><span className="eyebrow">HAVE A PROJECT IN MIND?</span><h2>Let’s make something<br/>meaningful.</h2><p>I’m always interested in learning, sharing ideas, and taking on a new challenge.</p></div><a className="contact-link" href="#projects" aria-label="Explore projects"><ArrowUpRight size={23}/></a></section>;
 }
 
 function App() {
-  const location = useLocation();
-  useEffect(() => {
-    if (location.hash) {
-      window.requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView({ behavior: 'smooth' }));
-    } else {
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-    const isTopic = location.pathname.startsWith('/learning/');
-    document.title = isTopic ? 'Topic notes — Priyanshu Macwan' : location.pathname === '/learning' ? 'Learning Hub — Priyanshu Macwan' : location.pathname === '/' ? 'Priyanshu Macwan — Student Portfolio' : 'Page not found — Priyanshu Macwan';
-  }, [location.pathname, location.hash]);
-  return <><Header/><main id="main-content" tabIndex="-1"><RouteErrorBoundary><Suspense fallback={<div className="loading" role="status" aria-live="polite">Loading page…</div>}><Routes>
-    <Route path="/" element={<HomePage/>}/>
-    <Route path="/learning" element={<LearningPage/>}/>
-    <Route path="/learning/:topicId" element={<TopicPage/>}/>
-    <Route path="*" element={<NotFoundPage/>}/>
-  </Routes></RouteErrorBoundary></main><footer className="site-footer"><Link className="footer-brand" to="/" aria-label="Back to home">PM<span>.</span></Link><span>Priyanshu Macwan <b>·</b> 24CS049</span><span>© {new Date().getFullYear()} <span className="footer-note">BUILT WITH CURIOSITY</span></span></footer></>;
+  return <><Header/><main><Hero/><About/><Projects/><Skills/><Contact/></main><footer><a className="footer-brand" href="#home">PM<span>.</span></a><span>Priyanshu Macwan <b>·</b> 24CS049</span><span>© {new Date().getFullYear()} <span className="footer-right">BUILT WITH CURIOSITY</span></span></footer></>;
 }
 
-createRoot(document.getElementById('root')).render(<React.StrictMode><BrowserRouter><App/></BrowserRouter></React.StrictMode>);
+createRoot(document.getElementById('root')).render(<React.StrictMode><App/></React.StrictMode>);
