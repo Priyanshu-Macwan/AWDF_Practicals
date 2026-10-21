@@ -22,7 +22,7 @@
 | **Practical 7** | `ITUE301-AWDF_Practical7-main` | User Authentication, JWT Tokens & Secure Route Protection |
 | **Practical 8** | `ITUE301-AWDF_Practical8-main` | Application Performance Optimization & Profiling |
 | **Practical 9** | `ITUE301-AWDF_Practical9-main` | Advanced Caching Strategies (Redis / Memory Caching) |
-| **Practical 10** | `ITUE301-AWDF_Practical10-main` | Event-Driven Architecture & Real-Time WebSockets |
+| **Practical 10** | `ITUE-301-AWDF-Practical10` | Node.js `EventEmitter`, asynchronous task notifications & non-blocking API responses |
 | **Practical 11** | `ITUE301-AWDF_Practical11-main` | Containerization with Docker & Docker Compose |
 | **Practical 12** | `ITUE301-AWDF_Practical12-main` | CI/CD Pipeline Automation (GitHub Actions) |
 | **Practical 13** | `ITUE301-AWDF_Practical13-main` | AI Integration & Intelligent Web Services |
